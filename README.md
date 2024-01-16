@@ -19,4 +19,4 @@
 1. Paste the code in App Script file in google sheet
 
 ## Create Folders for Receipents
-1. run command <b> python3 create folders.py</b>
+1. run command <b> python3 create_folders.py</b>
