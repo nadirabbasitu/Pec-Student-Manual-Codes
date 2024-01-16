@@ -1,0 +1,113 @@
+
+function makeTableHeader(sheet,frozen_rows,frozen_cols, numCols) {
+    var result = "<table border=1 table-layout:auto white-space:nowrap overflow:scroll>";
+    for(var i=1; i<=frozen_rows; i++) {
+        result += "<tr>";
+        for(var j=1; j<=numCols-1; j++){
+            if (i==1){
+            result += "<th colspan='3' bgcolor='#75a3a3' font-size: large>"+sheet.getRange(i, frozen_cols+j , 1, 1).getValues().join([[]])+"</th>";
+            j+=2;
+            }
+           else if (i==2 && j==1){
+             result += "<th colspan='3' bgcolor='#a3c2c2'>"+sheet.getRange(i, frozen_cols+j , 1, 1).getValues().join([[]])+"</th>";
+            j+=2;
+            }
+            else if (i>1){
+              result += "<th bgcolor='#a3c2c2'>"+sheet.getRange(i, frozen_cols+j , 1, 1).getValues().join([[]])+"</th>";
+            }
+        }
+        result += "</tr>";
+    }
+    return result;
+}
+
+function makeTableBody(startrow, startcolumn, sheet, numCols, result) {
+   result += "<tr>";
+  // var hiddenColumns=[3,4,5,7,8,10,12,18];
+ //  for(var j=0; j<(hiddenColumns.length); j++)
+  //  {
+  //    sheet.hideColumns(hiddenColumns[j]);
+  //  }
+
+        for(var j=0; j<(numCols-1); j++){
+          //  if ( sheet.isColumnHiddenByUser(j) ){
+ // continue;}
+    //    for(var x=0; x<(hiddenColumns.length); x++){
+    //      if(j==hiddenColumns[x])
+    //        break;
+    //    }
+            result += "<td>"+sheet.getRange(startrow, startcolumn+j, 1, 1).getValues().join([[]])+"</td>";
+        }
+        result += "</tr>";
+        result += "</table>";
+    return result;
+}    
+
+  
+
+function send_email(emailaddress,subject,message,attachments)
+{
+  MailApp.sendEmail({
+          to: emailaddress,
+          subject: subject,
+          htmlBody: message,
+         attachments: attachments,
+         //cc: 'ubs@itu.edu.pk,msds19046@itu.edu.pk '
+        })
+}
+
+function get_contact()
+{
+      
+        var sender_detail = "<strong><u>Regards,</u><br>"
+        +"Engr Nadir Abbas 'nadir.abbas@itu.edu.pk'<br></i></strong><br><br>"
+        var contactTeam = sender_detail;
+ return contactTeam; 
+}
+
+function get_email_text(name,sheetName){
+    var email_text = 
+    "Hi "+ " " + "!<br>Your "+sheetName+" is attached below."+'<br>'
+    + name +'<br>'
+    + "You have to print this complete lab manual. The binding of the manual should be in the following order starting from top:"+'<br>'+"1. Transparent Plastic Sheet"+'<br>'+"2. Complete Lab Manual as provided"+'<br>'+"3. Transparent Plastic Sheet"+'<br><br>'+"";
+  return email_text;
+}
+
+
+
+function email_to_all() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet(); 
+  var sheetName = sheet.getSheetName(); 
+  var numRows = sheet.getLastRow(); // Number of rows in the sheet
+  var numCols = sheet.getLastColumn();
+
+  var table_header = makeTableHeader(sheet, 1, 1, numCols); // Assuming your headers are in row 1
+
+  // Get values from column A starting from A2
+  var emailColumn = sheet.getRange(2, 1, numRows - 1, 1).getValues();
+
+  for (var i = 0; i < numRows - 1; i++) {
+    var roll_no = emailColumn[i][0]; // get value from cell in column A
+    var name = sheet.getRange(i + 2, 2).getValue();  // get value from cell in column B
+    
+    if (roll_no !== "") {
+      // Use the email address as it is from column A
+      var emailaddress = roll_no.toString().trim();
+      
+      var table_body = makeTableBody(i + 2, 2, sheet, numCols, table_header); 
+      // start from row 2, excluding frozen columns
+
+      var message = get_email_text(name, sheetName) + get_contact();
+      // change your subject form here
+      var subject = "Prospective PHD Student Under Your Supervision";
+      var attachment = DriveApp.getFileById('1ppLxiWQLgJp-_Derls4FamWplmG-KFFC').getBlob();
+
+      send_email(emailaddress, subject, message,[attachment]);
+    }
+  }
+}
+
+
+
+
+
