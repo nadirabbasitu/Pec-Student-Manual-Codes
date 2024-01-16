@@ -16,4 +16,4 @@
 1. run command <b> python3 final_files_to_docx.py</b>
 
 ## Send Email With Attachment to Multiple Receipents
-1. Paste the code in App Script file
+1. Paste the code in App Script file in google sheet
