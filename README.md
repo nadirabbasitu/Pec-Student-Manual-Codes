@@ -1,6 +1,9 @@
-# Download Student Manuals for only one student from Github
+# Download All Student Manuals for only one student from Github
 1. run command <b> chmod a+x clone.sh</b>
 2. run command <b> ./clone.sh</b>
+
+# Convert All Word Manuals to PDF 
+1. run <b> demo.bat </b>
 
 # Move Student Manuals to Directory
 1. Ensure two directories (fromcopy having github repos, tocopy) exists
