@@ -17,3 +17,6 @@
 
 ## Send Email With Attachment to Multiple Receipents
 1. Paste the code in App Script file in google sheet
+
+## Create Folders for Receipents
+1. run command <b> python3 create folders.py</b>
