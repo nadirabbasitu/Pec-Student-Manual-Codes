@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # Prompt the user for their GitHub username and password (or use token-based authentication for security).
-#USERNAME="HafizUsamaRiaz"
-#PASSWORD="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"
+#USERNAME="HafizUsamz"
+#PASSWORD="t"
 
-USERNAME="nadirabbasitu"
-PASSWORD="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"
+USERNAME="naditu"
+PASSWORD="gUHFLVfIc4UZyx0"
 
 # Organization name
 ORG_NAME="ITU-Lahore-CFP"
