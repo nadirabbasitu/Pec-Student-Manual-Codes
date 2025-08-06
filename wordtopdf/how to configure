@@ -1,0 +1,53 @@
+##Step 1: Create a new batch file (e.g., doc2pdf.bat)<br>
+Save this to a folder included in your system PATH (explained below):<br>
+
+@echo off
+setlocal
+
+if "%~1"=="" (
+    echo Usage: doc2pdf "full\path\to\file.docx"
+    exit /b 1
+)
+
+:: Input file
+set "infile=%~1"
+
+:: Check if file exists
+if not exist "%infile%" (
+    echo File not found: %infile%
+    exit /b 1
+)
+
+:: Extract output path (same name, but .pdf extension)
+for %%F in ("%infile%") do (
+    set "outfile=%%~dpnF.pdf"
+)
+
+echo Converting "%infile%" to "%outfile%"...
+officetopdf.exe "%infile%" "%outfile%"
+echo Done.
+
+endlocal
+
+##  Step 2: Add it to your PATH<br>
+1. Save doc2pdf.bat in a folder like:<br>
+
+C:\Tools\Scripts\<br>
+
+2. Add that folder to your system PATH:<br>
+
+Press Win + R → type sysdm.cpl<br>
+
+Go to Advanced → Environment Variables<br>
+
+Edit the Path variable under System variables<br>
+
+Add: C:\Tools\Scripts\<br>
+
+## From WSL, you can invoke the Windows .exe directly like this:
+
+officetopdf.exe quiz.docx quiz.pdf
+
+This works if the .exe is in your Windows PATH.
+
+
